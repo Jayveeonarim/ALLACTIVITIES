@@ -1,0 +1,14 @@
+header {
+    background-color: black;
+    padding: 30px;
+    text-align: center;
+    font-size: 35px;
+    color: white;
+}
+
+.image-item img {
+    display: flex;
+    width: 300px;
+    height: auto;
+    flex-direction: row;
+}
