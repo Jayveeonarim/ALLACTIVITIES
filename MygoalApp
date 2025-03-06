@@ -1,0 +1,55 @@
+import React, {useState} from 'react';
+import {View, TextInput, Button, FlatList, Text,StyleSheet } from 'react-native';
+
+export default function app() {
+ const [enteredGoalText, setEnteredGoalText] = useState('');
+ const [courseGoals, setCourseGoals] = useState([]);
+
+  const goalInputHandler = (enteredText) => {
+    setEnteredGoalText(enteredText);
+  };
+
+  const addGoalHandler = () => {
+    setCourseGoals((currentCourseGoal) => [...currentCourseGoal, enteredGoalText]);
+    setEnteredGoalText('');
+     
+  };
+
+const getRainbowColor =(index) => {
+  const colors = ['#8B00f', '#4B0082', 'blue', 'green', '#ff7ff00'];
+  return {backgroundCOlor: colors[index % colors.length]}
+}
+
+ return (
+ <View>
+  <View>
+  <TextInput 
+  placeholder="My goal"
+  onChangeText={goalInputHandler} 
+  value={enteredGoalText}
+  />
+  <Button title = "My goal"  onPress={addGoalHandler}/>
+  </View>
+ 
+  <FlatList 
+  data={courseGoals}
+  renderItem={({item, index})   => (
+  <View style={styles.goalContainer,[getRainbowColor(index)]}>
+  <Text>{item}</Text>
+  </View>
+  )}
+  keyExtractor={(item, index) => index.toString()}
+  alwaysBounceVertical={false}
+
+
+ />
+ </View>
+ );
+}
+
+const styles = StyleSheet.create({
+  goalContainer: {
+    paddingTop: 20,
+    padding: 10,
+  }
+})
