@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TextInput, Button, FlatList, Text,StyleSheet } from 'react-native';
+import {View, TextInput, Button, FlatList, Text,StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function app() {
  const [enteredGoalText, setEnteredGoalText] = useState('');
@@ -15,9 +15,17 @@ export default function app() {
      
   };
 
+const deleteGoal = () => {
+  const updateGoals = [...courseGoals];
+  updatedGOals.splice(index, 1); 
+  setCourseGoals(updateGoals);
+}
+
+
 const getRainbowColor =(index) => {
-  const colors = ['#8B00f', '#4B0082', 'blue', 'green', '#ff7ff00'];
-  return {backgroundCOlor: colors[index % colors.length]}
+  const colors = ['#8B00FF', '#4B0082', 'blue', 'green', '#FF7F00'];
+return { backgroundColor: colors[index % colors.length] };
+
 }
 
  return (
@@ -34,8 +42,13 @@ const getRainbowColor =(index) => {
   <FlatList 
   data={courseGoals}
   renderItem={({item, index})   => (
-  <View style={styles.goalContainer,[getRainbowColor(index)]}>
+  <View style={[styles.goalContainer,getRainbowColor(index)]}>
   <Text>{item}</Text>
+  
+  
+  <TouchableOpacity onPress={() => deleteGoal(index)}>
+  <Text>X</Text>
+  </TouchableOpacity>
   </View>
   )}
   keyExtractor={(item, index) => index.toString()}
