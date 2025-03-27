@@ -14,15 +14,15 @@ const ImageTextNavigator = () => {
       	const sampleImage3 = 'https://th.bing.com/th/id/OIP.FXqy1gTbyr_IBChrF2xq7gHaFP?rs=1&pid=ImgDetMain'
         	const sampleImage4 = 'https://th.bing.com/th/id/R.def51393b98548cf7f9471d2820a0347?rik=uFZsq2LagrjN0w&riu=http%3a%2f%2fimg2.wikia.nocookie.net%2f__cb20131214012830%2fmy-little-pony-fanarts%2fes%2fimages%2fd%2fda%2fTwilight-Sparkle-smiling-my-little-pony-friendship-is-magic-twilight-sparke-24881471-851-938.png&ehk=bJUZerYWob%2buuCWZi2ThSc4RnlYib5W0LMu7QuoJaHk%3d&risl=&pid=ImgRaw&r=0'
 
-          	const sampleImage5 = 'https://th.bing.com/th/id/R.fdcc4f37e60567d7e486df60ce5ad011?rik=KKZ%2fJ%2f7AeftgPg&riu=http%3a%2f%2fvignette1.wikia.nocookie.net%2fmy-little-pony-fan-lavor%2fimages%2f2%2f20%2fFluttershy_happy_by_myardius-d5ttnfi.png%2frevision%2flatest%3fcb%3d20141224224855%26path-prefix%3des&ehk=a6Kq%2f0mZkvElAKsBsABsJ9FZJJAgjsTyjyEgpDtOwk4%3d&risl=&pid=ImgRaw&r=0'
+          	const sampleImage5 = 'https://vignette.wikia.nocookie.net/theunitedorganizationtoonsheroes/images/8/8c/Pinke_Pie.png/revision/latest?cb=20160306235923'
 
 	const items = [
-	{id: 1, title: "Fluttershy", image: sampleImage},
-	{id: 2, title: "AppleJack", image: sampleImage1},
-	{id: 3, title: "Rainbow Rush", image: sampleImage2},
-  {id: 4, title: "Rarity", image: sampleImage3},
-	{id: 5, title: "Twilight", image: sampleImage4},
-	{id: 6, title: "FlutterShy", image: sampleImage5},
+	{id: 1, title: "Fluttershy", image: sampleImage, desc: "Fluttershy is a female Pegasus pony and one of the main characters of My Little Pony Friendship is Magic. She lives in a small cottage near the Everfree Forest and takes care of animals, including her pet bunny Angel. She represents the element of kindness."},
+	{id: 2, title: "Apple Jack", image: sampleImage1, desc: "Applejack is a female Earth pony and one of the main characters of My Little Pony Friendship is Magic. She lives and works at Sweet Apple Acres with her grandmother Granny Smith, her older brother Big McIntosh, her younger sister Apple Bloom, and her dog Winona. She represents the element of honesty."},
+	{id: 3, title: "Rainbow Dash", image: sampleImage2, desc: "Rainbow Dash is a female Pegasus pony and one of the main characters in My Little Pony Friendship is Magic. She maintains the weather and clears the skies in Ponyville. As a huge fan of the Wonderbolts, she becomes a reservist member of the elite flying group in Testing Testing 1, 2, 3 and a full member in Newbie Dash. In Sonic Rainboom, Rarity and Princess Celestia both declare that she is the best flier in all of Equestria. Rainbow Dash has a pet tortoise named Tank, whom she acquires from Fluttershy in the episode May the Best Pet Win! She represents the element of loyalty."},
+  {id: 4, title: "Rarity", image: sampleImage3, desc: ""},
+	{id: 5, title: "Twilight", image: sampleImage4, desc: ""},
+	{id: 6, title: "Pinkie Pie", image: sampleImage5, desc: ""},
 ];
 
 const handleItemCLick = (item) => {
@@ -53,9 +53,13 @@ return(
 
 ) : (
   <View >
-    <Text style={styles.title}> {selectedItem.title}</Text>    
+    <Text style={styles.title}> {selectedItem.title}
+    </Text>    
     <Image source={{ uri: selectedItem.image }} style={styles.details} />
+    <Text style={styles.titledetail}> Details </Text>
+    <Text  style={styles.textdetail}> {selectedItem.desc}</Text>
     <TouchableOpacity onPress = {goBack}>
+
   <Text style={styles.back}>Back</Text>
 	
   </TouchableOpacity>
@@ -111,9 +115,14 @@ const styles = StyleSheet.create({
 
     
   },
+  titledetail: {
+    fontSize: 20
+  },
   textdetail: {
-    textAlign: 'center',
-    
+    marginTop: 20,
+    backgroundColor: '#FF7684', 
+    borderRadius: 5,
+    fontSize: 14,
   },
   details: {
 
@@ -125,6 +134,7 @@ const styles = StyleSheet.create({
     
 
   },
+  
   back: {
     marginTop: 20,
        textAlign: 'center',
