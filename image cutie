@@ -1,0 +1,146 @@
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, Image,ScrollView, StyleSheet} from 'react-native';
+
+const ImageTextNavigator = () => {
+
+
+	const [currentScreen, setCurrentScreen] = useState('main') 
+	
+	const [selectedItem, setSelectedItem] = useState(null)
+
+	const sampleImage = 'https://th.bing.com/th/id/R.fdcc4f37e60567d7e486df60ce5ad011?rik=KKZ%2fJ%2f7AeftgPg&riu=http%3a%2f%2fvignette1.wikia.nocookie.net%2fmy-little-pony-fan-lavor%2fimages%2f2%2f20%2fFluttershy_happy_by_myardius-d5ttnfi.png%2frevision%2flatest%3fcb%3d20141224224855%26path-prefix%3des&ehk=a6Kq%2f0mZkvElAKsBsABsJ9FZJJAgjsTyjyEgpDtOwk4%3d&risl=&pid=ImgRaw&r=0'
+  	const sampleImage1 = 'https://th.bing.com/th/id/R.bf6674ac9e4ee025b4dc05aa7ceff908?rik=10jrBTNJrV8AjQ&riu=http%3a%2f%2fimages.wikia.com%2fspongefan%2fimages%2f7%2f79%2fApplejack.png&ehk=BC3X8THyL5p6Nl4wAJVq6Va%2bOmy2wHZoYbuk7wnMhd0%3d&risl=&pid=ImgRaw&r=0'
+    	const sampleImage2 = 'https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ba9be61a-6b84-4888-808a-f0a189f6604d/dgt0wyc-ce82b74b-e463-430e-a80c-9d3a75fb241a.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2JhOWJlNjFhLTZiODQtNDg4OC04MDhhLWYwYTE4OWY2NjA0ZFwvZGd0MHd5Yy1jZTgyYjc0Yi1lNDYzLTQzMGUtYTgwYy05ZDNhNzVmYjI0MWEucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.xDsSF9bC5hPz1AP5ggo6ZIZZWAU_92TO5HRsiSuhWM4'
+      	const sampleImage3 = 'https://th.bing.com/th/id/OIP.FXqy1gTbyr_IBChrF2xq7gHaFP?rs=1&pid=ImgDetMain'
+        	const sampleImage4 = 'https://th.bing.com/th/id/R.def51393b98548cf7f9471d2820a0347?rik=uFZsq2LagrjN0w&riu=http%3a%2f%2fimg2.wikia.nocookie.net%2f__cb20131214012830%2fmy-little-pony-fanarts%2fes%2fimages%2fd%2fda%2fTwilight-Sparkle-smiling-my-little-pony-friendship-is-magic-twilight-sparke-24881471-851-938.png&ehk=bJUZerYWob%2buuCWZi2ThSc4RnlYib5W0LMu7QuoJaHk%3d&risl=&pid=ImgRaw&r=0'
+
+          	const sampleImage5 = 'https://th.bing.com/th/id/R.fdcc4f37e60567d7e486df60ce5ad011?rik=KKZ%2fJ%2f7AeftgPg&riu=http%3a%2f%2fvignette1.wikia.nocookie.net%2fmy-little-pony-fan-lavor%2fimages%2f2%2f20%2fFluttershy_happy_by_myardius-d5ttnfi.png%2frevision%2flatest%3fcb%3d20141224224855%26path-prefix%3des&ehk=a6Kq%2f0mZkvElAKsBsABsJ9FZJJAgjsTyjyEgpDtOwk4%3d&risl=&pid=ImgRaw&r=0'
+
+	const items = [
+	{id: 1, title: "Fluttershy", image: sampleImage},
+	{id: 2, title: "AppleJack", image: sampleImage1},
+	{id: 3, title: "Rainbow Rush", image: sampleImage2},
+  {id: 4, title: "Rarity", image: sampleImage3},
+	{id: 5, title: "Twilight", image: sampleImage4},
+	{id: 6, title: "FlutterShy", image: sampleImage5},
+];
+
+const handleItemCLick = (item) => {
+    setSelectedItem(item);
+    setCurrentScreen('detail');
+};
+
+
+const goBack = () => {
+setCurrentScreen('main');
+setSelectedItem(null);
+};
+
+return(
+<View style={styles.container}>
+{currentScreen === 'main' ? (
+  <ScrollView style={styles.scrollView}>
+  <Text style={styles.title}>Kampapangan</Text>
+  <View style={styles.rowContainer}> 
+    {items.map((item) => (
+      <TouchableOpacity key={item.id} onPress={() => handleItemCLick(item)}>
+        <Image source={{ uri: item.image }} style={styles.imagesize} />
+        <Text style={styles.text}>{item.title}</Text>
+      </TouchableOpacity>
+    ))}
+  </View>
+</ScrollView>
+
+) : (
+  <View >
+    <Text style={styles.title}> {selectedItem.title}</Text>    
+    <Image source={{ uri: selectedItem.image }} style={styles.details} />
+    <TouchableOpacity onPress = {goBack}>
+  <Text style={styles.back}>Back</Text>
+	
+  </TouchableOpacity>
+</View>
+
+)
+}
+ 
+</View>
+
+);
+};
+
+const styles = StyleSheet.create({
+  title: {
+    marginTop: 25,
+   fontSize: 25,
+   alignSelf: 'center',
+  },
+  container: {
+    flex: 1,
+
+  },
+  scrollView: {
+    flex: 1,
+    
+    
+  },
+  rowContainer: {
+    marginTop: 50,
+    flexDirection: 'row',
+    flexWrap: 'wrap', 
+    justifyContent: 'space-around',
+    
+ 
+    
+  },
+  text: {
+    textAlign: 'center',
+    backgroundColor: '#FEA3AC',
+    borderRadius: 10,
+    padding: 10,
+    fontWeight: 'bold',
+    borderColor: '#FF7684'
+    
+  },
+  imagesize: {
+    height: 100,
+    width: 100,
+    margin: 10, 
+    borderWidth: 3,
+    margin: 25,
+
+    
+  },
+  textdetail: {
+    textAlign: 'center',
+    
+  },
+  details: {
+
+   width: 200,
+    height: 200,
+   margin: 'auto',
+   marginTop: 50,
+    
+    
+
+  },
+  back: {
+    marginTop: 20,
+       textAlign: 'center',
+    backgroundColor: '#FEA3AC', 
+    borderRadius: 10,
+    padding: 10,
+    marginRight: 300,
+    marginLeft: 20,
+    fontWeight: 'bold',
+    borderWidth: 2,
+    borderColor: '#FF7684'
+  }
+
+});
+
+
+
+
+export default ImageTextNavigator;
