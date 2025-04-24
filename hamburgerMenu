@@ -1,0 +1,162 @@
+import React, {useState} from 'react';
+
+import { SafeAreaView, StyleSheet, Animated,View, TouchableOpacity,Text, ScrollView} from 'react-native';
+import { Menu, X} from 'lucide-react-native';
+
+const HamburgerMenu = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const slideAnim = useState(new Animated.Value(-300)) [0];
+
+  const toggleMenu = () => {
+      const toValue = menuOpen ? -300 : 0
+      Animated.timing(slideAnim, {
+        toValue,
+        duration: 300,
+        useNativeDriver: true,
+        }).start();
+        setMenuOpen(!menuOpen);
+  };
+
+  const menuItems = [
+    { id: 1, title: 'Home', screen: 'HomeScreen'},
+    { id: 1, title: 'Profile', screen: 'ProfileScreen'},
+  ]; 
+
+ return (
+   <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+          <TouchableOpacity onPress={toggleMenu} style={styles.menuButton}> 
+          {menuOpen ? < X size={24} color="#000"/> :
+           <Menu  size={24} color="#000"/>}
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}> My App</Text>
+      </View>
+      {menuOpen && (
+        <TouchableOpacity style={styles.overlay}
+        activeOpacity={1}
+        onPress={toggleMenu}
+        />
+      )}
+    <Animated.View style={[ styles.menu, {transform: [{ translateX: slideAnim}]},
+
+    ]}>
+
+      <ScrollView >
+        <View style={styles.menuheader}>
+        <Text style={styles.menuheadertext}>Menu</Text>
+        </View>
+
+          <View style={styles.menuItems}>
+            {menuItems.map((item) =>(
+              <TouchableOpacity key={item.id} style={styles.menuItem} onPress={() => { 
+                console.log (`Navigate to ${item.screen}`);
+                toggleMenu();
+              }}
+              >
+                <Text style={styles.menuItemText}>{item.title}</Text>
+            
+
+              </TouchableOpacity>
+              ))}
+          </View>
+
+
+      </ScrollView>
+    </Animated.View>
+          <View style={styles.content}>
+            <Text style={styles.contentText}>Main Content</Text>
+          </View>
+
+
+
+
+   </SafeAreaView>
+ ); 
+};
+
+const styles = StyleSheet.create({
+  container : {
+    flex: 1, 
+    backgroundColor: '#f5f5f5',
+  },
+  header: {
+    height: 60,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingBottomWidth: 1,
+    borderBottomColor: '#e0e0e0e',
+  },
+  menuButton: {
+    padding: 5,
+
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 20,
+  },
+  overlay : {
+    position : 'absolute',
+    top : 60,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    zIndex: 1,
+  
+  },
+  menu: {
+     position : 'absolute',
+    top : 60,
+    left: 0,
+    width: 300,
+    bottom: 0,
+    backgroundColor: 'white',
+    zIndex: 2,
+    shadowColor: 'black',
+    shadowOffset: {width: 2, height: 0},
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  menuheader: {
+      padding: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: '#e0e0e0',
+  },
+  menuheadertext: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  menuItems : {
+    paddingTop:20,
+  },
+  menuItem: {
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0'
+  },
+  menuItemText: {
+    fontSize: 16,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  contentText: {
+    fontSize: 30,
+    textAlign: 'center',
+    lineHeight: 24,
+
+  },
+
+
+
+});
+
+export default HamburgerMenu;
