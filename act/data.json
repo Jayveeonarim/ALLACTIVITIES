@@ -1,0 +1,17 @@
+{
+    "id": 1,
+    "name": "Jerron VItug",
+    "email": "sample@grc.com",
+    "phone": "09095531518",
+    "address": {
+        "street": "Sa tabi ni aling amor",
+        "city": " Caloocan",
+        "state": "PH",
+        "zip": "1400"
+    },
+    "company": {
+        "name": "Tech Solutions",
+        "position": "Secret",
+        "department": "Of Energy"
+    }
+}
