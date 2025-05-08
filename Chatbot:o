@@ -1,0 +1,157 @@
+import React, {useState} from 'react';
+
+import {View, StyleSheet, Text,FlatList,TextInput, TouchableOpacity} from 'react-native'
+
+
+const App = () => {
+
+const [messages, setMessages] = useState([{text: 'hello how can i help you?', sender: 'bot'}]);
+
+const[inputText, setInputText] = useState ('');
+
+const [loading, setLoading] = useState(false);
+
+const API_KEY = 'AIzaSyCNrYlzV48ilrlo50N-6sO2LW4DsqcCWCo';
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+
+
+const handleSend = async () => {
+  if (!inputText.trim()) return;
+  const userMessage = { text: inputText, sender: 'user'}
+  setMessages(prev => [...prev, userMessage]);
+  setInputText('');
+  setLoading(true)
+
+
+  try{
+    const requestBody = {
+      contents: [{ parts: [{text: inputText}]}]
+    };
+
+    const reponse = await fetch(API_URL, {
+      method: 'POST',
+      headers: {'Content-Type' : 'application/json' },
+      body: JSON.stringify(requestBody),
+    });
+    if (!reponse.ok) throw new Error (' wrong API :(');
+
+    const data = await reponse.json();
+    const responseText = data.candidates?.[0]?.content?.parts?.[0]?.text  || 'sorry dikita gets';
+
+      setMessages(prev=> [...prev, {text: responseText, sender: 'bot'} ])
+  }
+  catch(error) {
+    setMessages (prev =>[...prev, {
+      text: 'theres something wrong on the server, pls try again later :3', sender: 'bot'
+    }]);
+  }  finally {
+    setLoading(false);
+  }
+};
+
+const renderMessage =({item}) => (
+  <View style={[ styles.messageContainer, item.sender === 'user' ? styles.userMessages : styles.botMessages]}>
+    <Text style = {[styles.messageText,
+    item.sender === 'user' && styles.userMessageText]}>
+    {item.text}
+    </Text>
+  </View>
+);
+
+  return (
+    <View style={styles.container}>
+    <FlatList
+    data={messages}
+    renderItem={renderMessage}
+    keyExtractor={(item,index) => index.toString() }
+    contentContainerStyle= {styles.messagesList}
+    />
+    <View style={styles.inputContainer}>
+    <TextInput
+    style={styles.input}
+    value= {inputText}
+    onChangeText = {setInputText}
+    placeholder=" Type Your Message Here..." 
+    placeholderTextColor = ' #999'
+    />
+
+    <TouchableOpacity style={styles.sendButton} onPress={handleSend}>
+     <Text style={styles.sendButtonText}>Send</Text>
+    </TouchableOpacity>
+
+
+
+    </View>
+
+
+    </View>
+  );
+};
+
+const styles = StyleSheet.create ({
+ container: {
+   flex: 1,
+   padding: 16,
+   backgroundColor: '#f5f5f5',
+ },
+ messagesList: {
+   padding: 16,
+ },
+ messageContainer: {
+   maxWidth: '80%',
+   padding: 12,
+   borderRadius: 12,
+   marginBottom: 8,
+ },
+  userMessages: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#007AFF',
+  },
+  botMessages: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#E5E5EA'
+  },
+  messageText: {
+    fontSize: 16,
+  },
+  userMessageText: {
+  color: '#fff'
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    padding: 8,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+
+  },
+ input : {
+   flex: 1,
+   borderWidth: 1,
+   borderColor: '#ddd',
+   borderRadius: 20,
+   paddingHorizontal: 16,
+   paddingVertical: 8,
+   marginRight: 8,
+   fontsize: 16,
+ },
+ sendButton : {
+   justifyContent: 'center',
+   alignItems: 'center',
+   backgroundColor: '#007AFF',
+   borderRadius: 20,
+   
+   paddingVertical: 8 ,
+   paddingHorizontal: 16,
+ },
+ sendButtonText: {
+   color: 'white',
+   fontSize: 16,
+   fontWeight: 'bold',
+
+ }
+
+
+
+});
+export default App;
